@@ -1,0 +1,64 @@
+html{
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+
+body{
+    // background: linear-gradient(90deg, rgba(113,194,230,1) 0%, rgba(148,187,233,1) 7%, rgba(255,255,255,1) 64%);;
+}
+
+.height-mod{
+    height: 40px !important;
+    width: 40px !important;
+}
+
+section{
+    height: 100vh;
+    // scroll-snap-align: center;
+}
+
+.paralax-wrap{
+    background: linear-gradient(180deg, #111132, #505064);
+    height: 100%;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    .mountains{
+        background-image: url('/mountains.png');
+        background-size: cover;
+        background-position: bottom;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 3;
+    }
+
+    .planets{
+        background-image: url('/planets.png');
+        background-size: cover;
+        background-position: bottom;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 2;
+    }
+
+    .stars{
+        background-image: url('/stars.png');
+        background-size: cover;
+        background-position: bottom;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 1;
+    }
+}
+
+.paralax-head{
+    font-size: 30px;
+
+}
