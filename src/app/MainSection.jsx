@@ -1,5 +1,8 @@
 import React from "react";
 import Paralax from "src/components/Paralax";
+import { buttonVariants } from "src/components//ui/button";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 function mainSection() {
   return (
@@ -14,6 +17,14 @@ function mainSection() {
             Welcome to BizFloww. Every asset on our platform is verified by our
             team to ensure our highest quality standards.
           </p>
+        </div>
+        <div className="flex justify-center">
+          <Link href="/sell" className={cn(buttonVariants(), "ml-2")}>
+            Sell &rarr;
+          </Link>
+          <Link href="/buy" className={cn(buttonVariants(), "ml-2")}>
+            Buy &rarr;
+          </Link>
         </div>
       </section>
       <section>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 // import MaxWidthWrapper from "./MaxWidthWrapper";
 // import { Icons } from "./ui/icon";
-import { AudioWaveform } from "lucide-react";
+import { AudioWaveform, SunMoon } from "lucide-react";
 import { useSession } from "next-auth/react";
 // import { redirect } from "next/navigation";
 import { useTheme } from "next-themes";
@@ -17,7 +17,7 @@ function NavBar() {
     //   redirect("/");
     // },
   });
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   console.log("session", session);
 
   return (
@@ -28,27 +28,21 @@ function NavBar() {
           <div className="flex h-16 items-center">
             <div className="ml-4 flex lg:ml-0">
               <Link href="/">
-                <AudioWaveform
-                  className="h-10 w-20"
-                  onClick={() => setTheme("dark")}
-                />
+                <AudioWaveform className="h-10 w-20" />
 
                 {/* <Icons.logo className="h-10 w-10 lucide lucide-audio-waveform" /> */}
               </Link>
-              <Link href="/">
-                <AudioWaveform
-                  className="h-10 w-20 stroke-white"
-                  onClick={() => setTheme("light")}
-                />
 
-                {/* <Icons.logo className="h-10 w-10 lucide lucide-audio-waveform" /> */}
-              </Link>
+              <SunMoon
+                className="h-10 w-20"
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              />
             </div>
             {/* <div className="hidden z-50 lg:ml-8 lg:block lg:self-stretch">
               <NavItems />
             </div> */}
             <div className="ml-auto flex items-center">
-              {session ? (
+              {session?.user ? (
                 <div>
                   {" "}
                   <Link
@@ -70,7 +64,7 @@ function NavBar() {
                   >
                     Create account
                   </Link>
-                  <Link href="/Admin" className={buttonVariants()}>
+                  <Link href="/Admin" className={cn(buttonVariants(), "ml-2")}>
                     Admin &rarr;
                   </Link>
                 </div>
@@ -85,6 +79,15 @@ function NavBar() {
                   >
                     {" "}
                     Sign in{" "}
+                  </Link>
+                  <Link
+                    href="/create-user"
+                    className={cn(
+                      buttonVariants({ variant: "ghost" }),
+                      "border border-slate-500"
+                    )}
+                  >
+                    Create account
                   </Link>
                 </div>
               )}

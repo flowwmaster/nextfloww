@@ -1,24 +1,32 @@
-import prisma from "@/app/libs/prismadb";
+import prisma from "@/libs/prismadb";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { options } from "@/app/api/auth/[...nextauth]/options";
 
 export const GET = async (request, { params }) => {
-  try {
-    const { id } = params;
-    const post = await prisma.post.findUnique({
-      where: {
-        id,
-      },
-    });
+  const session = await getServerSession(options);
 
-    if (!post) {
-      return NextResponse.json(
-        { message: "Post not found", err },
-        { status: "404" }
-      );
+  if (session && session.user) {
+    try {
+      const { id } = params;
+      const post = await prisma.post.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if (!post) {
+        return NextResponse.json(
+          { message: "Post not found", err },
+          { status: "404" }
+        );
+      }
+      return NextResponse.json(post);
+    } catch (err) {
+      return NextResponse.json({ message: "GET error", err }, { status: 500 });
     }
-    return NextResponse.json(post);
-  } catch (err) {
-    return NextResponse.json({ message: "GET error", err }, { status: 500 });
+  } else {
+    return NextResponse.json({ message: "unauth" }, { status: 403 });
   }
 };
 

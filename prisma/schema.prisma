@@ -10,10 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
+model uploadBiz {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  title String?
-  description String?
+  name String?
+  companyName String?
+  number String?
+  email String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
