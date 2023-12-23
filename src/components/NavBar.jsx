@@ -26,6 +26,11 @@ function NavBar() {
     } else setOpen(false);
   };
 
+  const switchAuth = (btnName) => {
+    setOpenReg(!openReg);
+    setOpen(!open);
+  };
+
   return (
     <div className="sticky inset-x-0 top-0 h-16 backdrop-blur-sm hover:backdrop-blur-lg z-10">
       <header className="relative">
@@ -69,6 +74,7 @@ function NavBar() {
                       open={open}
                       close={close}
                       setOpen={setOpen}
+                      switchAuth={switchAuth}
                     />
                   </div>
                   <div
@@ -81,6 +87,7 @@ function NavBar() {
                       open={openReg}
                       close={close}
                       setOpen={setOpenReg}
+                      switchAuth={switchAuth}
                     />
                   </div>
                 </div>
