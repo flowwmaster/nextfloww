@@ -94,6 +94,12 @@ const admin = () => {
                 >
                   Approve
                 </Button>
+                <Button
+                  className={cn(buttonVariants(), "mt-8 bg-red-400 ml-2")}
+                  onClick={() => ApprovedBiz(b)}
+                >
+                  Flag
+                </Button>
               </div>
             ))}
         </TabsContent>
@@ -109,10 +115,10 @@ const admin = () => {
                   <div>EBITA: {b?.ebita}%</div>
                 </div>
                 <Button
-                  className={cn(buttonVariants(), "mt-8")}
+                  className={cn(buttonVariants(), "mt-8 bg-green-400")}
                   onClick={() => ApprovedBiz(b?._id, b)}
                 >
-                  Approve
+                  Approved
                 </Button>
               </div>
             ))}

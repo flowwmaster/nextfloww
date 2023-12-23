@@ -5,9 +5,23 @@ mongoose.Promise = global.Promise;
 
 const userSchema = new Schema(
   {
-    name: String,
-    email: String,
-    password: String,
+    name: {
+      type: String,
+      required: false,
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: false,
+    },
+    verified: {
+      type: Boolean,
+      required: true,
+    },
   },
   {
     timestamps: true,

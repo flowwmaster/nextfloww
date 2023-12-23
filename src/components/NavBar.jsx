@@ -1,14 +1,13 @@
 "use client";
 
 import Link from "next/link";
-// import MaxWidthWrapper from "./MaxWidthWrapper";
-// import { Icons } from "./ui/icon";
 import { AudioWaveform, SunMoon } from "lucide-react";
-import { useSession } from "next-auth/react";
-// import { redirect } from "next/navigation";
 import { useTheme } from "next-themes";
-import { buttonVariants } from "./ui/button";
+import { buttonVariants, Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+import Register from "./Register";
+import { useState } from "react";
+import { signOut, useSession } from "next-auth/react";
 
 function NavBar() {
   const { data: session } = useSession({
@@ -18,7 +17,14 @@ function NavBar() {
     // },
   });
   const { theme, setTheme } = useTheme();
-  console.log("session", session);
+  const [open, setOpen] = useState(false);
+  const [openReg, setOpenReg] = useState(false);
+
+  const close = (btnName) => {
+    if (btnName === "Register") {
+      setOpenReg(false);
+    } else setOpen(false);
+  };
 
   return (
     <div className="sticky inset-x-0 top-0 h-16 backdrop-blur-sm hover:backdrop-blur-lg z-10">
@@ -44,51 +50,39 @@ function NavBar() {
             <div className="ml-auto flex items-center">
               {session?.user ? (
                 <div>
-                  {" "}
-                  <Link
-                    href="/api/auth/signout?callbackUrl=/"
-                    className={cn(
-                      buttonVariants({ variant: "ghost" }),
-                      "border border-slate-500 mr-2"
-                    )}
-                  >
-                    {" "}
-                    Logout{" "}
-                  </Link>
-                  <Link
-                    href="/create-user"
-                    className={cn(
-                      buttonVariants({ variant: "ghost" }),
-                      "border border-slate-500"
-                    )}
-                  >
-                    Create account
-                  </Link>
+                  <Button onClick={() => signOut()} variant="outline">
+                    Logout
+                  </Button>
                   <Link href="/Admin" className={cn(buttonVariants(), "ml-2")}>
                     Admin &rarr;
                   </Link>
                 </div>
               ) : (
                 <div className="flex flex-1 items-center justify-end space-x-6 ">
-                  <Link
-                    href="/api/auth/signin"
-                    className={cn(
-                      buttonVariants({ variant: "ghost" }),
-                      "border border-slate-500"
-                    )}
+                  <div
+                    onClick={() => {
+                      if (!open) setOpen(true);
+                    }}
                   >
-                    {" "}
-                    Sign in{" "}
-                  </Link>
-                  <Link
-                    href="/create-user"
-                    className={cn(
-                      buttonVariants({ variant: "ghost" }),
-                      "border border-slate-500"
-                    )}
+                    <Register
+                      btnName={"Sign in"}
+                      open={open}
+                      close={close}
+                      setOpen={setOpen}
+                    />
+                  </div>
+                  <div
+                    onClick={() => {
+                      if (!openReg) setOpenReg(true);
+                    }}
                   >
-                    Create account
-                  </Link>
+                    <Register
+                      btnName={"Register"}
+                      open={openReg}
+                      close={close}
+                      setOpen={setOpenReg}
+                    />
+                  </div>
                 </div>
               )}
             </div>

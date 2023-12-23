@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@/models/User";
 import bcrypt from "bcrypt";
+import connect from "@/utils/db";
 
 export const options = {
   // secret: process.env.AUTH_SECRET,
@@ -41,20 +42,22 @@ export const options = {
       clientSecret: process.env.GOOGLE_SECRET,
     }),
     CredentialsProvider({
+      id: "credentials",
       name: "Credentials",
       credentials: {
         email: {
-          label: "email",
+          label: "Email",
           type: "text",
-          placeholder: "your-email",
+          placeholder: "Enter your email",
         },
         password: {
           label: "password",
           type: "password",
-          placeholder: "your-password",
+          placeholder: "Enter your password",
         },
       },
       async authorize(credentials) {
+        await connect();
         try {
           const foundUser = await User.findOne({ email: credentials.email })
             .lean()
@@ -74,7 +77,7 @@ export const options = {
             }
           }
         } catch (error) {
-          console.log("error", error);
+          throw new Error(error);
         }
       },
     }),
