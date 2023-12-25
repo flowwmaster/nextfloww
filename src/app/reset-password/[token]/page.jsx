@@ -26,7 +26,6 @@ import { useRouter } from "next/navigation";
 const ResetPassword = ({ params }) => {
   const router = useRouter();
   const [error, setError] = useState("");
-  const [verified, setVerified] = useState(false);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
