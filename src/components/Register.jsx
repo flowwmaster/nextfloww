@@ -26,7 +26,7 @@ import {
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 
-const Register = ({ btnName, open, close, switchAuth }) => {
+const Register = ({ btnName, open, close, switchAuth, setOpenFP }) => {
   const [error, setError] = useState("");
 
   const formSchema = z.object(
@@ -50,9 +50,8 @@ const Register = ({ btnName, open, close, switchAuth }) => {
     const { email, password } = formData;
 
     if (btnName === "Register") {
-      const apiData = { ...formData, verified: false };
       axios
-        .post("/api/Users", apiData)
+        .post("/api/Users", formData)
         .then(function (_res) {
           setError("");
           close(btnName);
@@ -255,16 +254,23 @@ const Register = ({ btnName, open, close, switchAuth }) => {
             </Form>
           </div>
 
-          <DialogFooter>
-            <div
-              onClick={() => switchAuth()}
-              className="text-blue-500 cursor-pointer font-medium"
-            >
+          <div className="flex justify-between text-blue-500 cursor-pointer font-medium">
+            {btnName !== "Register" && (
+              <div
+                onClick={() => {
+                  close(btnName);
+                  setOpenFP(true);
+                }}
+              >
+                Forgot password?
+              </div>
+            )}
+            <div onClick={() => switchAuth()}>
               {btnName === "Register"
                 ? "Already a user? Sign in"
                 : "Create a new account?"}
             </div>
-          </DialogFooter>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

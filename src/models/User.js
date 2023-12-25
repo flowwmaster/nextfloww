@@ -20,7 +20,19 @@ const userSchema = new Schema(
     },
     verified: {
       type: Boolean,
-      required: true,
+      required: false,
+    },
+    role: {
+      type: String,
+      required: false,
+    },
+    resetToken: {
+      type: String,
+      required: false,
+    },
+    resetTokenExpiry: {
+      type: Date,
+      required: false,
     },
   },
   {

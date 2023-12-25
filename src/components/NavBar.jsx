@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import { buttonVariants, Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import Register from "./Register";
+import ForgotPass from "./ForgotPass";
 import { useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 
@@ -18,6 +19,7 @@ function NavBar() {
   });
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
+  const [openFP, setOpenFP] = useState(false);
   const [openReg, setOpenReg] = useState(false);
 
   const close = (btnName) => {
@@ -26,7 +28,7 @@ function NavBar() {
     } else setOpen(false);
   };
 
-  const switchAuth = (btnName) => {
+  const switchAuth = () => {
     setOpenReg(!openReg);
     setOpen(!open);
   };
@@ -40,8 +42,6 @@ function NavBar() {
             <div className="ml-4 flex lg:ml-0">
               <Link href="/">
                 <AudioWaveform className="h-10 w-20" />
-
-                {/* <Icons.logo className="h-10 w-10 lucide lucide-audio-waveform" /> */}
               </Link>
 
               <SunMoon
@@ -49,9 +49,6 @@ function NavBar() {
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               />
             </div>
-            {/* <div className="hidden z-50 lg:ml-8 lg:block lg:self-stretch">
-              <NavItems />
-            </div> */}
             <div className="ml-auto flex items-center">
               {session?.user ? (
                 <div>
@@ -75,6 +72,7 @@ function NavBar() {
                       close={close}
                       setOpen={setOpen}
                       switchAuth={switchAuth}
+                      setOpenFP={setOpenFP}
                     />
                   </div>
                   <div
@@ -92,6 +90,11 @@ function NavBar() {
                   </div>
                 </div>
               )}
+              <ForgotPass
+                setOpenFP={setOpenFP}
+                openFP={openFP}
+                setOpen={setOpen}
+              />
             </div>
           </div>
         </div>

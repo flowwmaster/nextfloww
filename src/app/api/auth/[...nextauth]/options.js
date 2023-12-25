@@ -10,7 +10,6 @@ export const options = {
   providers: [
     GitHubProvider({
       profile(profile) {
-        console.log("profile Github: ", profile);
         let userRole = "GitHub User";
         if (profile?.email == "anirudh.bizfloww@gmail.com") {
           userRole = "admin";
@@ -26,7 +25,6 @@ export const options = {
     }),
     GoogleProvider({
       profile(profile) {
-        console.log("profile Google: ", profile);
         let userRole = "Google User";
         if (profile?.email == "anirudh.bizfloww@gmail.com") {
           userRole = "admin";
@@ -63,7 +61,6 @@ export const options = {
             .lean()
             .exec();
           if (foundUser) {
-            console.log("user exists");
             const match = await bcrypt.compare(
               credentials.password,
               foundUser.password
@@ -90,6 +87,53 @@ export const options = {
     async session({ session, token }) {
       if (session?.user) session.user.role = token.role;
       return session;
+    },
+    async signIn({ user, account }) {
+      if (account?.provider === "credentials") {
+        return true;
+      }
+      if (account?.provider === "github") {
+        await connect();
+        try {
+          const existingUser = await User.findOne({ email: user.email })
+            .lean()
+            .exec();
+          if (!existingUser) {
+            const newUser = new User({
+              name: user.name,
+              email: user.email,
+              verified: true,
+              role: "User",
+            });
+            await newUser.save();
+          }
+          return true;
+        } catch (err) {
+          console.log("Error in saving user");
+          return false;
+        }
+      }
+      if (account?.provider === "google") {
+        await connect();
+        try {
+          const existingUser = await User.findOne({ email: user.email })
+            .lean()
+            .exec();
+          if (!existingUser) {
+            const newUser = new User({
+              name: user.name,
+              email: user.email,
+              verified: true,
+              role: "User",
+            });
+            await newUser.save();
+          }
+          return true;
+        } catch (err) {
+          console.log("Error in saving user");
+          return false;
+        }
+      }
     },
   },
 };
