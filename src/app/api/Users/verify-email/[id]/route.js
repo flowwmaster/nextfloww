@@ -10,7 +10,7 @@ export const POST = async (_req, { params }) => {
   const { id } = params;
   var ObjectId = require("mongodb").ObjectId;
   var o_id = new ObjectId(id);
-  const existingUser = await User.find({ _id: o_id });
+  const existingUser = await User.findById(id);
   const emailToken = crypto.randomBytes(20).toString("hex");
   const verifyEmailToken = crypto
     .createHash("sha256")
@@ -18,8 +18,8 @@ export const POST = async (_req, { params }) => {
     .digest("hex");
   const verfyTokenExpires = Date.now() + 900000;
 
-  existingUser.verifyToken = verifyEmailToken;
-  existingUser.verifyTokenExpiry = verfyTokenExpires;
+  existingUser.verificationToken = verifyEmailToken;
+  existingUser.verificationTokenExpiry = verfyTokenExpires;
   const verifyUrl = `${process.env.NEXTAUTH_URL}verify-profile/${emailToken}`;
 
   let transporter = nodemailer.createTransport({
@@ -48,9 +48,9 @@ export const POST = async (_req, { params }) => {
       );
     })
     .catch(async (_err) => {
-      existingUser.verifyToken = undefined;
-      existingUser.verifyTokenExpiry = undefined;
-      // await User.findByIdAndUpdate({ _id: { $in: id } }, existingUser);
+      existingUser.verificationToken = undefined;
+      existingUser.verificationTokenExpiry = undefined;
+      await existingUser.save();
       return NextResponse.json(
         { message: "Failed sending reset email. Try again" },
         { status: 400 }
@@ -58,17 +58,7 @@ export const POST = async (_req, { params }) => {
     });
 
   try {
-    console.log("212121", existingUser);
-
-    // await existingUser
-    //   .save()
-    //   .then((res) => console.log("ress", res))
-    //   .catch((err) => console.log("err", err));
-
-    await User.findByIdAndUpdate(id, {
-      verifyToken: verifyEmailToken,
-      verifyTokenExpiry: verfyTokenExpires,
-    });
+    await existingUser.save();
     return NextResponse.json({ message: "User updated" }, { status: 200 });
   } catch (err) {
     return NextResponse.json(

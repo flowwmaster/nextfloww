@@ -28,6 +28,12 @@ const ResetPassword = ({ params }) => {
   const [error, setError] = useState("");
   const [user, setUser] = useState(null);
 
+  const formSchema = z.object({ password: z.string().min(4) });
+
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+  });
+
   useEffect(() => {
     if (params?.token) {
       const verifyToken = async () => {
@@ -38,23 +44,15 @@ const ResetPassword = ({ params }) => {
           )
           .then(function (res) {
             setError("");
-            setVerified(true);
             setUser(res);
           })
           .catch(function (error) {
             setError(error.response.data.message);
-            setVerified(true);
           });
       };
       verifyToken();
     }
   }, [params]);
-
-  const formSchema = z.object({ password: z.string().min(4) });
-
-  const form = useForm({
-    resolver: zodResolver(formSchema),
-  });
 
   const handleSubmit = (formData) => {
     axios

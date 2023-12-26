@@ -40,8 +40,9 @@ function NavBar() {
 
   useEffect(() => {
     if (session && !session?.isVerified) {
-      console.log("session11", session);
       setOpenV(true);
+    } else {
+      setOpenV(false);
     }
   }, [session]);
 

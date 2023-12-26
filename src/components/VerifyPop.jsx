@@ -15,7 +15,7 @@ const VerifyPop = ({ openV, setOpenV, id }) => {
 
   const handleSubmit = () => {
     axios
-      .post(`/api/Users/${id}`)
+      .post(`/api/Users/verify-email/${id}`)
       .then(function (_res) {
         setError("");
         setOpenV(false);

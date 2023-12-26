@@ -97,12 +97,12 @@ export const options = {
           const newUser = new User({
             name: token.name,
             email: token.email,
-            verified: token?.sub === undefined ? false : true,
+            verified: token?.sub !== undefined,
             role: "User",
           });
           jwtTokenID = newUser._id.toString();
           roleVal = "User";
-          isVerifiedVal = token?.sub === undefined ? false : true;
+          isVerifiedVal = token?.sub !== undefined;
           await newUser.save();
         } else {
           jwtTokenID = existingUser._id.toString();

@@ -34,11 +34,11 @@ const userSchema = new Schema(
       type: Date,
       required: false,
     },
-    verifyToken: {
+    verificationToken: {
       type: String,
       required: false,
     },
-    verifyTokenExpiry: {
+    verificationTokenExpiry: {
       type: Date,
       required: false,
     },
