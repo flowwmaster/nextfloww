@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import User from "@/models/User";
 import connect from "@/utils/db";
 import crypto from "crypto";
-const nodemailer = require("nodemailer");
+import nodemailer from "nodemailer";
 
 export async function POST(req) {
   await connect();

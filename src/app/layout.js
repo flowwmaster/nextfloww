@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { GlobalProvider } from "@/providers/Global";
 import { ThemeProvider } from "@/components/theme-provider";
 import AuthProvider from "@/providers/AuthProvider";
 import NavBar from "@/components/NavBar";
@@ -15,22 +16,24 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <AuthProvider>
-        <body
-          className={`${inter.className} relative h-full font-sans antialiased`}
-        >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
+        <GlobalProvider>
+          <body
+            className={`${inter.className} relative h-full font-sans antialiased`}
           >
-            <NavBar />
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <NavBar />
 
-            <main className="relative flex flex-col min-h-screen">
-              <div className="flex-grow flex-1">{children}</div>
-            </main>
-          </ThemeProvider>
-        </body>
+              <main className="relative flex flex-col min-h-screen">
+                <div className="flex-grow flex-1">{children}</div>
+              </main>
+            </ThemeProvider>
+          </body>
+        </GlobalProvider>
       </AuthProvider>
     </html>
   );

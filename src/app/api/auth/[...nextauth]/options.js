@@ -69,7 +69,7 @@ export const options = {
             if (match) {
               console.log("good pass");
               delete foundUser.password;
-              foundUser["role"] = "Unverified Email";
+              foundUser["role"] = "User";
               return foundUser;
             }
           }
@@ -85,55 +85,39 @@ export const options = {
       return token;
     },
     async session({ session, token }) {
-      if (session?.user) session.user.role = token.role;
-      return session;
-    },
-    async signIn({ user, account }) {
-      if (account?.provider === "credentials") {
-        return true;
-      }
-      if (account?.provider === "github") {
-        await connect();
-        try {
-          const existingUser = await User.findOne({ email: user.email })
-            .lean()
-            .exec();
-          if (!existingUser) {
-            const newUser = new User({
-              name: user.name,
-              email: user.email,
-              verified: true,
-              role: "User",
-            });
-            await newUser.save();
-          }
-          return true;
-        } catch (err) {
-          console.log("Error in saving user");
-          return false;
+      let jwtTokenID = "";
+      let roleVal = "";
+      let isVerifiedVal = false;
+      await connect();
+      try {
+        const existingUser = await User.findOne({ email: token.email })
+          .lean()
+          .exec();
+        if (!existingUser) {
+          const newUser = new User({
+            name: token.name,
+            email: token.email,
+            verified: token?.sub === undefined ? false : true,
+            role: "User",
+          });
+          jwtTokenID = newUser._id.toString();
+          roleVal = "User";
+          isVerifiedVal = token?.sub === undefined ? false : true;
+          await newUser.save();
+        } else {
+          jwtTokenID = existingUser._id.toString();
+          roleVal = existingUser.role;
+          isVerifiedVal = existingUser.verified;
         }
+      } catch (err) {
+        console.log("Error in saving user");
       }
-      if (account?.provider === "google") {
-        await connect();
-        try {
-          const existingUser = await User.findOne({ email: user.email })
-            .lean()
-            .exec();
-          if (!existingUser) {
-            const newUser = new User({
-              name: user.name,
-              email: user.email,
-              verified: true,
-              role: "User",
-            });
-            await newUser.save();
-          }
-          return true;
-        } catch (err) {
-          console.log("Error in saving user");
-          return false;
-        }
-      }
+      return {
+        ...session,
+        id: jwtTokenID,
+        isVerified: isVerifiedVal,
+        role: roleVal,
+      };
     },
   },
 };

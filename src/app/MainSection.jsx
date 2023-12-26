@@ -1,6 +1,5 @@
 import React from "react";
-import Paralax from "src/components/Paralax";
-import { buttonVariants } from "src/components//ui/button";
+import { buttonVariants } from "@/components//ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -27,11 +26,6 @@ function mainSection() {
           </Link>
         </div>
       </section>
-      <section>
-        <Paralax />
-      </section>
-      <section>3rd</section>
-      <section>4th</section>
     </div>
   );
 }

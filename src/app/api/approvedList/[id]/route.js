@@ -11,7 +11,6 @@ export const POST = async (req, { params }) => {
 
       const body = await req.json();
       const bizData = body;
-      console.log("bizData", bizData);
       await Approved.findByIdAndUpdate(id, bizData, { new: true });
       return NextResponse.json({ message: "GET error" }, { status: 201 });
     } catch (error) {
