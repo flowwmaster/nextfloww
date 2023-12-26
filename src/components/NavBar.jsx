@@ -7,8 +7,10 @@ import { buttonVariants, Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import Register from "./Register";
 import ForgotPass from "./ForgotPass";
-import { useState } from "react";
+import VerifyPop from "./VerifyPop";
+import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
+// import { GlobalContext } from "@/providers/Global";
 
 function NavBar() {
   const { data: session } = useSession({
@@ -17,8 +19,11 @@ function NavBar() {
     //   redirect("/");
     // },
   });
+  // const { user } = useContext(GlobalContext);
+
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
+  const [openV, setOpenV] = useState(false);
   const [openFP, setOpenFP] = useState(false);
   const [openReg, setOpenReg] = useState(false);
 
@@ -32,6 +37,13 @@ function NavBar() {
     setOpenReg(!openReg);
     setOpen(!open);
   };
+
+  useEffect(() => {
+    if (session && !session?.isVerified) {
+      console.log("session11", session);
+      setOpenV(true);
+    }
+  }, [session]);
 
   return (
     <div className="sticky inset-x-0 top-0 h-16 backdrop-blur-sm hover:backdrop-blur-lg z-10">
@@ -95,6 +107,7 @@ function NavBar() {
                 openFP={openFP}
                 setOpen={setOpen}
               />
+              <VerifyPop openV={openV} setOpenV={setOpenV} id={session?.id} />
             </div>
           </div>
         </div>
