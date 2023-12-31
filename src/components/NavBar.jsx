@@ -10,6 +10,8 @@ import ForgotPass from "./ForgotPass";
 import VerifyPop from "./VerifyPop";
 import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
+import AddProfile from "./AddProfile";
+
 // import { GlobalContext } from "@/providers/Global";
 
 function NavBar() {
@@ -64,13 +66,17 @@ function NavBar() {
             </div>
             <div className="ml-auto flex items-center">
               {session?.user ? (
-                <div>
+                <div className="flex items-center gap-3">
+                  <Link href="/Admin" className={cn(buttonVariants())}>
+                    Admin &rarr;
+                  </Link>
                   <Button onClick={() => signOut()} variant="outline">
                     Logout
                   </Button>
-                  <Link href="/Admin" className={cn(buttonVariants(), "ml-2")}>
-                    Admin &rarr;
-                  </Link>
+                  <Button onClick={() => signOut()} variant="outline">
+                    Create Profile
+                  </Button>
+                  <AddProfile />
                 </div>
               ) : (
                 <div className="flex flex-1 items-center justify-end space-x-6 ">

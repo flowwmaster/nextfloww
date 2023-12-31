@@ -110,7 +110,7 @@ export const options = {
           isVerifiedVal = existingUser.verified;
         }
       } catch (err) {
-        console.log("Error in saving user");
+        console.log("Error in saving user", err);
       }
       return {
         ...session,

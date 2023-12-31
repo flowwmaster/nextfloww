@@ -22,7 +22,7 @@ function mainSection() {
             Sell &rarr;
           </Link>
           <Link href="/buy" className={cn(buttonVariants(), "ml-2")}>
-            Buy &rarr;
+            Invest &rarr;
           </Link>
         </div>
       </section>
