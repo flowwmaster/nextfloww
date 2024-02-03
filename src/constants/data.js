@@ -1,0 +1,60 @@
+// investment sizerisk appetiteinvestment tenureindustry
+
+export const data = [
+  {
+    id: 111,
+    name: "Investment 1",
+    size: 100,
+    risk: "low",
+    tenure: 1,
+    industry: "Software",
+  },
+  {
+    id: 112,
+    name: "Investment 2",
+    size: 200,
+    risk: "mid",
+    tenure: 2,
+    industry: "Energy",
+  },
+  {
+    id: 113,
+    name: "Investment 3",
+    size: 300,
+    risk: "high",
+    tenure: 2,
+    industry: "Healthcare",
+  },
+  {
+    id: 114,
+    name: "Investment 4",
+    size: 150,
+    risk: "low",
+    tenure: 4,
+    industry: "Media",
+  },
+  {
+    id: 115,
+    name: "Investment 5",
+    size: 250,
+    risk: "mid",
+    tenure: 1,
+    industry: "Travel",
+  },
+  {
+    id: 116,
+    name: "Investment 6",
+    size: 500,
+    risk: "mid",
+    tenure: 3,
+    industry: "Healthcare",
+  },
+  {
+    id: 117,
+    name: "Investment 7",
+    size: 5000,
+    risk: "high",
+    tenure: 2,
+    industry: "Healthcare",
+  },
+];

@@ -1,4 +1,4 @@
-import Profile from "@/models/Profile";
+import InvestorProfile from "@/models/InvestorProfile";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
@@ -9,7 +9,7 @@ export async function POST(req) {
     try {
       const body = await req.json();
       const profileData = body;
-      await Profile.create(profileData);
+      await InvestorProfile.create(profileData);
       return NextResponse.json(
         { message: "Invester Profile created!" },
         { status: 201 }

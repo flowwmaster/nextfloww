@@ -10,6 +10,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
@@ -18,7 +27,7 @@ const InvestorProfile = () => {
   const formSchema = z.object({
     name: z.string(),
     number: z.string().max(10),
-    companyName: z.string(),
+    location: z.enum(["Bangalore", "Mangalore"]),
     email: z.string().email(),
   });
   const form = useForm({
@@ -30,10 +39,9 @@ const InvestorProfile = () => {
 
   const handleSubmit = (val) => {
     console.log("val", val);
-    const bizData = { ...val, verified: false };
-    console.log("bizData", bizData);
+
     axios
-      .post("/api/Profile/Investor", bizData)
+      .post("/api/Profile/add-investor", bizData)
       .then((res) => {
         console.log("res", res);
       })
@@ -43,7 +51,8 @@ const InvestorProfile = () => {
   };
 
   return (
-    <div className="flex justify-center mt-16">
+    <div className="flex flex-col items-center justify-center mt-16">
+      <div className="text-2xl my-3">CREATE YOUR INVESTOR PROFILE</div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
@@ -64,21 +73,7 @@ const InvestorProfile = () => {
               );
             }}
           />
-          <FormField
-            control={form.control}
-            name="companyName"
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>Company Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Company Name" type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              );
-            }}
-          />
+
           <FormField
             control={form.control}
             name="number"
@@ -113,21 +108,33 @@ const InvestorProfile = () => {
               );
             }}
           />
-          {/* <FormField
+          <FormField
             control={form.control}
-            name="file"
+            name="location"
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>Input PDF</FormLabel>
+                  <FormLabel>Location</FormLabel>
                   <FormControl>
-                    <Input id="picture" type="file" />
+                    <Select onValueChange={field.onChange}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a fruit" {...field} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Location</SelectLabel>
+                          <SelectItem value="Bangalore">Bangalore</SelectItem>
+                          <SelectItem value="Mangalore">Mangalore</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               );
             }}
-          /> */}
+          />
+
           <Button type="submit" className="w-full">
             Submit
           </Button>

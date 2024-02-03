@@ -10,11 +10,11 @@ export default async function Home() {
   return (
     <div>
       <MainSection session={session} />
-      <section>
+      {/* <section>
         <Paralax />
       </section>
       <section>3rd</section>
-      <section>4th</section>
+      <section>4th</section> */}
     </div>
   );
 }

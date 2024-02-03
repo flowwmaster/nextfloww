@@ -4,13 +4,11 @@ import { getServerSession } from "next-auth";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 
 export async function POST(req) {
-  console.log("req", req);
   const session = await getServerSession(options);
   if (session && session.user) {
     try {
       const body = await req.json();
       const bizData = body;
-      console.log("bizData", bizData);
       await Approved.create(bizData);
       return NextResponse.json({ message: "GET error" }, { status: 201 });
     } catch (error) {

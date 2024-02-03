@@ -73,9 +73,6 @@ function NavBar() {
                   <Button onClick={() => signOut()} variant="outline">
                     Logout
                   </Button>
-                  <Button onClick={() => signOut()} variant="outline">
-                    Create Profile
-                  </Button>
                   <AddProfile />
                 </div>
               ) : (

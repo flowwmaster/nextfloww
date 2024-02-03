@@ -14,8 +14,8 @@ const AddProfile = () => {
   const [profileOpen, setProfileOpen] = useState(false);
 
   return (
-    <Popover open={profileOpen} className="cursor-pointer">
-      <PopoverTrigger onClick={() => setProfileOpen(!profileOpen)}>
+    <Popover className="cursor-pointer">
+      <PopoverTrigger>
         <CircleUser className="mr-2" size={35} />
       </PopoverTrigger>
       <PopoverContent className="p-0 cursor-pointer">
@@ -38,7 +38,13 @@ const AddProfile = () => {
           <UserPlus size={15} /> Add new profile
         </div>
         {show && (
-          <div className=" flex flex-col gap-3">
+          <div
+            className="flex flex-col"
+            onClick={() => {
+              setShow(!show);
+              setProfileOpen(!profileOpen);
+            }}
+          >
             <Link
               href="/profiles/investor"
               className="p-2 hover:text-accent-foreground hover:bg-accent"

@@ -8,8 +8,6 @@ export const POST = async (_req, { params }) => {
   await connect();
 
   const { id } = params;
-  var ObjectId = require("mongodb").ObjectId;
-  var o_id = new ObjectId(id);
   const existingUser = await User.findById(id);
   const emailToken = crypto.randomBytes(20).toString("hex");
   const verifyEmailToken = crypto
